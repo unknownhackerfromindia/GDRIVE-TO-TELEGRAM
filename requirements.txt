@@ -1,0 +1,4 @@
+https://github.com/LonamiWebs/Telethon/archive/refs/heads/master.zip
+https://github.com/MiyukiKun/FastTelethonhelper/archive/main.zip
+telethon-tgcrypto
+requests
