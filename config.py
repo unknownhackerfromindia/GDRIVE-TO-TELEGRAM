@@ -14,4 +14,13 @@ FFMPEGID = "2 3 4"
 FFMPEGCMD = "5"
 DESTINATION = "-1001463218112"
 
+FFMPEGID = FFMPEGID.split()
+for i in range(len(FFMPEGID)):
+    FFMPEGID[i] = int(FFMPEGID[i])
+
+BASE = int(BASE)
+FFMPEG = int(FFMPEG)
+FFMPEGCMD = int(FFMPEGCMD)
+DESTINATION = int(DESTINATION)
+
 bot = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
