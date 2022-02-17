@@ -37,7 +37,7 @@ async def _(event):
     await asyncio.sleep(15)
     await x.delete()
 
-@bot.on(events.NewMessage(pattern=f"/download{bot_username}"))
+@bot.on(events.NewMessage(pattern=f"/encode{bot_username}"))
 async def _(event):
     cmd = await bot.get_messages(FFMPEG, ids=FFMPEGCMD)
     data = event.text.split(":")
@@ -78,7 +78,7 @@ async def _(event):
         f = await DownLoadFile(url, reply, file_name=name)
         await encode(event.chat_id, f, cmd)
 
-@bot.on(events.NewMessage(pattern=f"/encode{bot_username}"))
+@bot.on(events.NewMessage(pattern=f"/download{bot_username}"))
 async def _(event):
     data = event.text.split(":")
     if "folder" in data[1]:
