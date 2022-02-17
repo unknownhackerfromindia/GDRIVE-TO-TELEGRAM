@@ -98,7 +98,7 @@ async def _(event):
             await main.edit(f"STATUS:\n`Downloading {name}`")
             f = await DownLoadFile(url, reply, file_name=name)
             await main.edit(f"STATUS:\n`Uploading {name}`")
-            file = await fast_upload(bot, f, reply)
+            file = await fast_upload(bot, f"./downloads/{f}", reply)
             await bot.send_message(event.chat_id, f, file=file, force_document= True)
             await reply.delete()
             os.remove(f)
@@ -118,7 +118,7 @@ async def _(event):
         
         reply = await event.reply("Downloading...")
         f = await DownLoadFile(url, reply, file_name=name)
-        file = await fast_upload(bot, f, reply)
+        file = await fast_upload(bot, f"./downloads/{f}", reply)
         await bot.send_message(event.chat_id, f, file=file, force_document= True)
         await reply.delete()
         os.remove(f)
