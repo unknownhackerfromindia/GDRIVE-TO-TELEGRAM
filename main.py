@@ -58,7 +58,6 @@ async def _(event):
             reply = await event.reply("Downloading...")
             await main.edit(f"STATUS:\n`Downloading {name}`")
             f = await DownLoadFile(url, reply, file_name=name)
-            await main.edit(f"STATUS:\n`Uploading {name}`")
             await encode(event.chat_id, f, cmd)
         await main.edit("ALL FILES UPLOADED")
 

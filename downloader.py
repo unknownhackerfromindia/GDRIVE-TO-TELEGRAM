@@ -41,7 +41,7 @@ async def DownLoadFile(url, reply, chunk_size=1024*10, file_name="file.mkv"):
     r = requests.get(url, allow_redirects=True, stream=True)
     total_size = int(r.headers.get("content-length", 0))
     downloaded_size = 0
-    with open(file_name, 'wb') as fd:
+    with open(f"./downloads/{file_name}", 'wb') as fd:
         for chunk in r.iter_content(chunk_size=chunk_size):
             if chunk:
                 fd.write(chunk)
