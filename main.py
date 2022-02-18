@@ -41,7 +41,20 @@ async def _(event):
 async def _(event):
     cmd = await bot.get_messages(FFMPEG, ids=FFMPEGCMD)
     data = event.text.split(":")
-    if "folder" in data[1]:
+
+    if "magnet" in data[1] or "torrent" in data[1]:
+        r = await event.reply("Downloading...")
+        f = download_torrent(data[1], r)
+        file = await fast_upload(bot, f"./downloads/{f}", r)
+        await bot.send_message(event.chat_id, f, file=file, force_document= True)
+        await r.delete()
+        os.remove(f"./downloads/{f}")
+        for root, subdirectories, files in os.walk('./downloads'):
+            for file in files:
+               f = os.path.join(root, file)
+               await encode(event.chat_id, f, cmd)
+
+    elif "folder" in data[1]:
         folder_id = data[1].split("/")[-1]
         url = FOLDER_URL
         url = url.replace("[FOLDER_ID]", folder_id)
@@ -79,22 +92,24 @@ async def _(event):
         await reply.delete()
         await encode(event.chat_id, f, cmd)
 
-    elif "magnet" in data[1] or "torrent" in data[1]:
+@bot.on(events.NewMessage(pattern=f"/download{bot_username}"))
+async def _(event):
+    data = event.text.split(":")
+    if "magnet" in data[1] or "torrent" in data[1]:
         r = await event.reply("Downloading...")
-        f = download_torrent[data[1], r]
+        f = download_torrent(data[1], r)
         file = await fast_upload(bot, f"./downloads/{f}", r)
         await bot.send_message(event.chat_id, f, file=file, force_document= True)
         await r.delete()
         os.remove(f"./downloads/{f}")
+        file_list = []  
         for root, subdirectories, files in os.walk('./downloads'):
             for file in files:
-               f = os.path.join(root, file)
-               await encode(event.chat_id, f, cmd)
+                file_list.append(os.path.join(root, file))
+        await upload_files(event,file_list)
+        delete_files('downloads')
 
-@bot.on(events.NewMessage(pattern=f"/download{bot_username}"))
-async def _(event):
-    data = event.text.split(":")
-    if "folder" in data[1]:
+    elif "folder" in data[1]:
         folder_id = data[1].split("/")[-1]
         url = FOLDER_URL
         url = url.replace("[FOLDER_ID]", folder_id)
@@ -136,20 +151,6 @@ async def _(event):
         await bot.send_message(event.chat_id, f, file=file, force_document= True)
         await reply.delete()
         os.remove(f"./downloads/{f}")
-
-    elif "magnet" in data[1] or "torrent" in data[1]:
-        r = await event.reply("Downloading...")
-        f = download_torrent[data[1], r]
-        file = await fast_upload(bot, f"./downloads/{f}", r)
-        await bot.send_message(event.chat_id, f, file=file, force_document= True)
-        await r.delete()
-        os.remove(f"./downloads/{f}")
-        file_list = []  
-        for root, subdirectories, files in os.walk('./downloads'):
-            for file in files:
-                file_list.append(os.path.join(root, file))
-        await upload_files(event,file_list)
-        delete_files('downloads')
 
 loop.run_until_complete(dl_ffmpeg())
 
