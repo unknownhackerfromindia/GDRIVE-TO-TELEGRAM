@@ -49,7 +49,7 @@ async def _(event):
         for root, subdirectories, files in os.walk('./downloads'):
             for file in files:
                f = os.path.join(root, file)
-               await encode(event.chat_id, f, cmd)
+               await encode(event.chat_id, file, cmd)
 
     elif "folder" in data[1]:
         folder_id = data[1].split("/")[-1]
