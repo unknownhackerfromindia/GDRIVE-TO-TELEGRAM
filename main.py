@@ -43,7 +43,6 @@ async def _(event):
     data = event.text.split(":")
 
     if "magnet" in data[1] or "torrent" in data[1]:
-        print(data[1])
         r = await event.reply("Downloading...")
         f = await download_torrent(data[1], r)
         file = await fast_upload(bot, f"./downloads/{f}", r)
@@ -96,6 +95,7 @@ async def _(event):
 @bot.on(events.NewMessage(pattern=f"/download{bot_username}"))
 async def _(event):
     data = event.text.split(":")
+    print(data[1])
     if "magnet" in data[1] or "torrent" in data[1]:
         r = await event.reply("Downloading...")
         f = await download_torrent(data[1], r)
