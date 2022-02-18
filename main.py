@@ -45,10 +45,7 @@ async def _(event):
     if "magnet" in data[1] or "torrent" in data[1]:
         r = await event.reply("Downloading...")
         f = await download_torrent(data[1], r)
-        file = await fast_upload(bot, f"./downloads/{f}", r)
-        await bot.send_message(event.chat_id, f, file=file, force_document= True)
         await r.delete()
-        os.remove(f"./downloads/{f}")
         for root, subdirectories, files in os.walk('./downloads'):
             for file in files:
                f = os.path.join(root, file)
@@ -98,8 +95,6 @@ async def _(event):
     if "magnet" in data[1] or "torrent" in data[1]:
         r = await event.reply("Downloading...")
         f = await download_torrent(data[1], r)
-        file = await fast_upload(bot, f"./downloads/{f}", r)
-        await bot.send_message(event.chat_id, f, file=file, force_document= True)
         await r.delete()
         os.remove(f"./downloads/{f}")
         file_list = []  
