@@ -44,7 +44,7 @@ async def _(event):
 
     if "magnet" in data[1] or "torrent" in data[1]:
         r = await event.reply("Downloading...")
-        f = download_torrent(data[1], r)
+        f = await download_torrent(data[1], r)
         file = await fast_upload(bot, f"./downloads/{f}", r)
         await bot.send_message(event.chat_id, f, file=file, force_document= True)
         await r.delete()
@@ -97,7 +97,7 @@ async def _(event):
     data = event.text.split(":")
     if "magnet" in data[1] or "torrent" in data[1]:
         r = await event.reply("Downloading...")
-        f = download_torrent(data[1], r)
+        f = await download_torrent(data[1], r)
         file = await fast_upload(bot, f"./downloads/{f}", r)
         await bot.send_message(event.chat_id, f, file=file, force_document= True)
         await r.delete()
