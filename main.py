@@ -3,10 +3,10 @@ from config import bot, API_KEY, FOLDER_URL, FILE_URL, BASE, FFMPEG, FFMPEGCMD, 
 from FastTelethonhelper import fast_upload, fast_download
 import requests
 import os
-from downloader import DownLoadFile
+from downloader import DownLoadFile, download_torrent, upload_files
 import asyncio
 import subprocess
-from utils import encode
+from utils import encode, delete_files
 
 loop = asyncio.get_event_loop()
 
@@ -58,6 +58,7 @@ async def _(event):
             reply = await event.reply("Downloading...")
             await main.edit(f"STATUS:\n`Downloading {name}`")
             f = await DownLoadFile(url, reply, file_name=name)
+            await reply.delete()
             await encode(event.chat_id, f, cmd)
         await main.edit("ALL FILES UPLOADED")
 
@@ -75,7 +76,20 @@ async def _(event):
         
         reply = await event.reply("Downloading...")
         f = await DownLoadFile(url, reply, file_name=name)
+        await reply.delete()
         await encode(event.chat_id, f, cmd)
+
+    elif "magnet" in data[1] or "torrent" in data[1]:
+        r = await event.reply("Downloading...")
+        f = download_torrent[data[1], r]
+        file = await fast_upload(bot, f"./downloads/{f}", r)
+        await bot.send_message(event.chat_id, f, file=file, force_document= True)
+        await r.delete()
+        os.remove(f"./downloads/{f}")
+        for root, subdirectories, files in os.walk('./downloads'):
+            for file in files:
+               f = os.path.join(root, file)
+               await encode(event.chat_id, f, cmd)
 
 @bot.on(events.NewMessage(pattern=f"/download{bot_username}"))
 async def _(event):
@@ -121,8 +135,21 @@ async def _(event):
         file = await fast_upload(bot, f"./downloads/{f}", reply)
         await bot.send_message(event.chat_id, f, file=file, force_document= True)
         await reply.delete()
-        os.remove(f)
+        os.remove(f"./downloads/{f}")
 
+    elif "magnet" in data[1] or "torrent" in data[1]:
+        r = await event.reply("Downloading...")
+        f = download_torrent[data[1], r]
+        file = await fast_upload(bot, f"./downloads/{f}", r)
+        await bot.send_message(event.chat_id, f, file=file, force_document= True)
+        await r.delete()
+        os.remove(f"./downloads/{f}")
+        file_list = []  
+        for root, subdirectories, files in os.walk('./downloads'):
+            for file in files:
+                file_list.append(os.path.join(root, file))
+        await upload_files(event,file_list)
+        delete_files('downloads')
 
 loop.run_until_complete(dl_ffmpeg())
 
