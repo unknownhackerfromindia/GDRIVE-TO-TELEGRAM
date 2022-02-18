@@ -40,7 +40,7 @@ async def _(event):
 @bot.on(events.NewMessage(pattern=f"/encode{bot_username}"))
 async def _(event):
     cmd = await bot.get_messages(FFMPEG, ids=FFMPEGCMD)
-    data = event.text.split(":")
+    data = event.text.split(" ")
 
     if "magnet" in data[1] or "torrent" in data[1]:
         r = await event.reply("Downloading...")
@@ -94,8 +94,7 @@ async def _(event):
 
 @bot.on(events.NewMessage(pattern=f"/download{bot_username}"))
 async def _(event):
-    data = event.text.split(":")
-    print(data[1])
+    data = event.text.split(" ")
     if "magnet" in data[1] or "torrent" in data[1]:
         r = await event.reply("Downloading...")
         f = await download_torrent(data[1], r)
