@@ -125,7 +125,7 @@ async def _(event):
             file = await fast_upload(bot, f"./downloads/{f}", reply)
             await bot.send_message(event.chat_id, f, file=file, force_document= True)
             await reply.delete()
-            os.remove(f)
+            os.remove(f"./downloads/{f}")
         await main.edit("ALL FILES UPLOADED")
 
     elif "file" in data[1]:
