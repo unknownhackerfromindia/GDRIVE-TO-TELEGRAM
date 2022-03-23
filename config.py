@@ -8,11 +8,11 @@ bot_username = os.environ.get('BOT_USERNAME')
 API_KEY = os.environ.get('API_KEY')
 FOLDER_URL = "https://www.googleapis.com/drive/v2/files?q='[FOLDER_ID]'+in+parents&key="
 FILE_URL = "https://www.googleapis.com/drive/v3/files/[FILE_ID]?alt=media&key="
-BASE = "-1001361915166"
-FFMPEG = "-1001514731412"
+BASE = "-1001598582374"
+FFMPEG = "-1001598582374"
 FFMPEGID = "2 3 4"
 FFMPEGCMD = "5"
-DESTINATION = "-1001463218112"
+DESTINATION = "-1001598582374"
 
 FFMPEGID = FFMPEGID.split()
 for i in range(len(FFMPEGID)):
