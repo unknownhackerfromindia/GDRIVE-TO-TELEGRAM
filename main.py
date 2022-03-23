@@ -1,6 +1,6 @@
 from telethon import events
 from config import bot, API_KEY, FOLDER_URL, FILE_URL
-from FastTelethonhelper import fast_upload
+
 import requests
 import os
 from downloader import DownLoadFile
