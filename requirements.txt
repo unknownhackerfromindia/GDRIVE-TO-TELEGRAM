@@ -1,4 +1,10 @@
-https://github.com/LonamiWebs/Telethon/archive/refs/heads/master.zip
 telethon
+
+
+
 telethon-tgcrypto
+
 requests
+
+
+
